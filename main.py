@@ -2,16 +2,19 @@ import requests
 import json
 import datetime
 import pandas as pd
+import dotenv
+import os
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-path = ""
+# load the .env file
+dotenv.load_dotenv()
 
 # dictionary with the pertinent strings to access the api
 payload = {
     'client_id': '116787',
-    'client_secret': '',
-    'refresh_token': '',
+    'client_secret': os.getenv("CLIENT_SECRET"),
+    'refresh_token': os.getenv("REFRESH_TOKEN"),
     'grant_type': 'refresh_token',
     'f': 'json'
 }
@@ -66,7 +69,7 @@ def data_csv(json_data):
                         x["max_heartrate"]])
     
     df = pd.DataFrame(data, columns=['name', 'start_date', 'start_time', 'distance_miles', 'idle_time_seconds', 'elevation_gain', 'avg_speed_mph', 'max_speed_mph', 'avg_hr', 'max_hr']) 
-    df.to_csv(path + "running-data.csv")
+    df.to_csv("./running-data.csv")
     return df
 
 # takes in a df and a list of the columns that need to be normalized
@@ -148,7 +151,7 @@ def top_activities(df, column, n=5, top=True):
 # store results in a results.json 
 def save_results(results):
     print("Saving to results.json...")
-    with open(path+"results.json", "w") as results_file:
+    with open("./results.json", "w") as results_file:
         # Convert Timestamp objects to strings before serializing to JSON
         results_json = json.dumps(results, default=str, indent=4)
         results_file.write(results_json)
@@ -158,7 +161,7 @@ def main():
     if input("Update data?(y/n) ").lower().strip() == "y":
         df = data_csv(update_data())
     else:
-        df = pd.read_csv(path+"running-data.csv",index_col=0)
+        df = pd.read_csv("./running-data.csv",index_col=0)
     
     # can be changed to adjust what metrics are used and what the weights should be
     columns_used = ['distance_miles','elevation_gain','avg_speed_mph','max_speed_mph','avg_hr','max_hr','idle_time_seconds']

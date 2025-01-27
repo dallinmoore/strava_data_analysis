@@ -1,0 +1,8 @@
+# python
+.env
+.venv/
+__pycache__/
+
+# user data
+results.json
+running-data.csv

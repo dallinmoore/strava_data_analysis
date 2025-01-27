@@ -20,12 +20,22 @@ This script is designed to analyze running activities retrieved from the Strava 
 
 6. **Result Aggregation**: Aggregates the top activities analysis results into a JSON format and saves them to a file (`results.json`).
 
-## Note
+## Setup Instructions
 
-- This script is intended for educational and demonstration purposes and can be further extended or customized based on specific requirements.
-- Ensure compliance with the Strava API terms of use and data privacy regulations while using this script.
+1. Get a `CLIENT_SECRET` and `REFRESH_TOKEN` from Strava and save them to `.env` in the format outlined in `.env.example`.
 
+2. Create a virtual python environment and activate it using the following commands (*Windows*):
+```bash
+python -m venv .venv
+./.venv/Scripts/activate
+```
 
----
+3. Install necessary dependencies with:
+```bash
+pip install -r requirements.txt
+```
 
-*Disclaimer: This project is not affiliated with or endorsed by Strava. Use at your own risk.*
+4. Run the script:
+```bash
+python main.py
+```
